@@ -101,6 +101,37 @@ resource "azurerm_linux_virtual_machine" "vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
+
+  custom_data = base64encode(<<-EOF
+    #!/bin/bash
+    apt update && apt upgrade -y
+    apt install -y python3 python3-pip git
+    pip3 install flask gunicorn azure-storage-blob
+    mkdir -p /app
+    # Remplacez par votre repo Git
+    # git clone https://github.com/votre-user/votre-repo.git /app
+    # cd /app
+    # Créer un service systemd pour l'app
+    cat > /etc/systemd/system/flask-app.service << 'SERVICE_EOF'
+[Unit]
+Description=Flask App
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/app
+ExecStart=/usr/local/bin/gunicorn --bind 0.0.0.0:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+SERVICE_EOF
+    systemctl daemon-reload
+    # systemctl enable flask-app
+    # systemctl start flask-app
+    echo "Installation terminée. Clonez votre repo dans /app, puis activez le service."
+  EOF
+  )
 }
 
 resource "random_string" "storage_suffix" {
