@@ -27,6 +27,12 @@ variable "vm_size" {
   default     = "Standard_B1s"
 }
 
+variable "backend_port" {
+  description = "Port du backend (autorisé dans le NSG)"
+  type        = number
+  default     = 5000
+}
+
 variable "storage_account_prefix" {
   description = "Préfixe du nom du storage account (doit être en minuscules, 3-24 chars au final)"
   type        = string

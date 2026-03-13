@@ -22,3 +22,8 @@ output "nom_conteneur" {
   description = "Nom du container Blob"
   value       = azurerm_storage_container.conteneur.name
 }
+
+output "backend_url" {
+  description = "URL du backend (à démarrer sur la VM)"
+  value       = "http://${azurerm_public_ip.ip_publique.ip_address}:${var.backend_port}"
+}
