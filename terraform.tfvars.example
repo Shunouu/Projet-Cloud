@@ -1,0 +1,5 @@
+## Renomme ce fichier en terraform.tfvars (il est ignoré par git)
+## Remplis avec tes valeurs locales.
+
+# Clé publique SSH pour se connecter à la VM (ex: contenu de ~/.ssh/id_ed25519.pub)
+ssh_public_key = "ssh-ed25519 AAAA... ton_user@ton_pc"
